@@ -482,8 +482,10 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
         setState(() => _showShadow = false);
       }
     });
-
-    _submitController.reverse();
+    
+    if(mounted) {
+      _submitController.reverse();
+    }
 
     if (!DartHelper.isNullOrEmpty(error)) {
       showErrorToast(context, error);
