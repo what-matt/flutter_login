@@ -480,7 +480,9 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     // workaround to run after _cardSizeAnimation in parent finished
     // need a cleaner way but currently it works so..
     Future.delayed(const Duration(milliseconds: 270), () {
-      setState(() => _showShadow = false);
+      if(mounted) {
+        setState(() => _showShadow = false);
+      }
     });
 
     _submitController.reverse();
