@@ -121,11 +121,10 @@ class AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    super.dispose();
-
     _formLoadingController.dispose();
     _pageController.dispose();
     _routeTransitionController.dispose();
+    super.dispose();
   }
 
   void _switchRecovery(bool recovery) {
@@ -427,8 +426,6 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    super.dispose();
-
     _loadingController?.removeStatusListener(handleLoadingAnimationStatus);
     _passwordFocusNode.dispose();
     _confirmPasswordFocusNode.dispose();
@@ -436,6 +433,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     _switchAuthController.dispose();
     _postSwitchAuthController.dispose();
     _submitController.dispose();
+    super.dispose();
   }
 
   void _switchAuthMode() {
@@ -480,10 +478,14 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     // workaround to run after _cardSizeAnimation in parent finished
     // need a cleaner way but currently it works so..
     Future.delayed(const Duration(milliseconds: 270), () {
-      setState(() => _showShadow = false);
+      if(mounted) {
+        setState(() => _showShadow = false);
+      }
     });
-
-    _submitController.reverse();
+    
+    if(mounted) {
+      _submitController.reverse();
+    }
 
     if (!DartHelper.isNullOrEmpty(error)) {
       showErrorToast(context, error);
@@ -494,7 +496,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       return false;
     }
 
-    widget?.onSubmitCompleted();
+    //widget?.onSubmitCompleted();
 
     return true;
   }
